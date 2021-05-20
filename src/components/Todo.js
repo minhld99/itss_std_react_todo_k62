@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 /* 
   【Todoのデータ構成】
@@ -47,8 +47,8 @@ function Todo() {
 
   const displayItems = items.filter(item => {
     if (filter === 'ALL') return true;
-    if (filter === 'TODO') return !item.done;
-    if (filter === 'DONE') return item.done;
+    else if (filter === 'TODO') return !item.done;
+    else return item.done; // (filter === 'DONE')
   });
   
   const handleFilterChange = value => setFilter(value);

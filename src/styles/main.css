@@ -3,3 +3,9 @@
 .container {
   margin-top: 2rem;
 }
+
+.panel > .panel-heading {
+    background-image: none;
+    background-color: #E75480;
+    color: white;
+}

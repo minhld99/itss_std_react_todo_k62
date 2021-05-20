@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 /* 
   【inputコンポーネント】
 　・新しいTodoを作成するINPUTフィールドを作成するコンポーネント
