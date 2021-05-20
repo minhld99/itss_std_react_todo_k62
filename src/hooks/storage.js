@@ -17,10 +17,10 @@ function useStorage() {
 　/* 副作用を使う */
   useEffect(() => {
     
-    const data = localStorage.getItem(STORAGE_KEY);
+    const data = window.localStorage.getItem(STORAGE_KEY);
 
     if (!data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
     } 
     else {
       setItems(JSON.parse(data));
@@ -29,12 +29,12 @@ function useStorage() {
   }, []);
 
   const putItems = items => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     setItems(items);
   };
 
   const clearItems = () => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
     setItems([]);
   };
 
