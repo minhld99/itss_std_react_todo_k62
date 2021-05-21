@@ -16,9 +16,11 @@ firebase.initializeApp(firebaseConfig);
 // firebase.firestore().collection("todos").add([id]).update([change])
 // firebase.firestore().collection("todos").add([id]).delete()
 
+const db = firebase.firestore();
+
 export const getFirebaseItems = async () => {
   try {
-    const result = await firebase.firestore().collection("todos").get();
+    const result = await db.collection("todos").get();
     const items = result.docs.map(
       (doc) => ({ ...doc.data(), id: doc.id })
     );
@@ -31,7 +33,7 @@ export const getFirebaseItems = async () => {
 
 export const addFirebaseItem = async (item) => {
   try {
-    const ref = firebase.firestore().collection("todos");
+    const ref = db.collection("todos");
     await ref.add(item);
   } catch (err) {
     console.log(err);
@@ -40,7 +42,7 @@ export const addFirebaseItem = async (item) => {
 
 export const updateFirebaseItem = async (item, id) => {
   try {
-    const ref = firebase.firestore().collection("todos").doc(id);
+    const ref = db.collection("todos").doc(id);
     await ref.update(item);
   } catch (err) {
     console.log(err);
@@ -48,10 +50,39 @@ export const updateFirebaseItem = async (item, id) => {
 }
 
 export const deleteFirebaseItem = async (item) => {
-  const ref = firebase.firestore().collection("todos").doc(item.id);
+  const ref = db.collection("todos").doc(item.id);
   await ref.delete().then().catch(function (err) {
     console.log(err);
   });
 };
 
+export const saveUser = async (user) => {
+  const { uid } = user;
+  const userRef = await db.collection("users").doc(uid).get();
+  if (!userRef.exists) {
+    await db.collection("users").doc(uid).set({ name: user.displayName });
+    return {
+      name: user.displayName,
+      id: uid,
+    };
+  } else {
+    return {
+      id: uid,
+      ...userRef.data(),
+    };
+  }
+}
+
+export const uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // Redirect to / after sign in is successful.
+  signInSuccessUrl: "/",
+  // Display Google as auth providers.
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  ],
+}
+
+export const authentication = firebase.auth()
 export default firebase;
