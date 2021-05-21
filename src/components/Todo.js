@@ -43,7 +43,7 @@ function Todo() {
   return (
     <div className="panel">
       <div className="panel-heading">
-        ITSS ToDoアプリ
+        <i class="fas fa-calendar-check"> ITSS ToDoアプリ</i>
       </div>
       <Input onAdd={handleAddBox} />
       <Filter

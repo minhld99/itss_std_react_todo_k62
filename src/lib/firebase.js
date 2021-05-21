@@ -84,5 +84,28 @@ export const uiConfig = {
   ],
 }
 
+export const updateUser = async (user, image) => {
+  try {
+    const userRef = await db.collection("users").doc(user.id).get();
+    if (userRef.exists) {
+      await db.collection("users").doc(user.id).update({ ...userRef.data(), image: image });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const uploadFile = async (image) => {
+  const ref = firebase.storage().ref().child(`/images/${image.name}`);
+  let downloadUrl = "";
+  try {
+    await ref.put(image);
+    downloadUrl = await ref.getDownloadURL();
+  } catch (err) {
+    console.log(err);
+  }
+  return downloadUrl;
+};
+
 export const authentication = firebase.auth()
 export default firebase;
